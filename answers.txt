@@ -1,0 +1,8 @@
+1. Когда не следует использовать AsyncTask?
+Когда нужно привязываться к жизненному циклу activity.
+2. Как сделать так, чтобы все дочерние элементы горизонтального LinearLayout имели одинаковую ширину?
+Выставить всем элементам android:layout_weight="1" и android:layout_width="0dp".
+3. В чем различие между ActivityContext и ApplicationContext?
+ApplicationContext один для всего приложения, ActivityContext у каждой activity свой.
+ActivityContext необходимо передавать отображаемым в ней элементам. Для остальных задач 
+лучше использовать ApplicationContext, чтобы избежать возможных утечек памяти.

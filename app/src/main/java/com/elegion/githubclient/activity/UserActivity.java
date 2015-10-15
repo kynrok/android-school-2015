@@ -85,6 +85,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private class GetUserTask extends AsyncTask<Void, Void, User> {
+        private boolean mConnectionError = false;
 
         @Override
         protected void onPreExecute() {
@@ -102,7 +103,8 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 int statusCode = responseObject.optInt(ApiClient.STATUS_CODE);
 
                 if (statusCode != ApiClient.STATUS_CODE_OK) {
-                    //TODO: handle error
+                    mConnectionError = true;
+                    return null;
                 } else {
                     String userName = responseObject.optString("login");
                     String userAvatar = responseObject.optString("avatar_url");
@@ -119,6 +121,9 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(User user) {
+            if (mConnectionError)
+                connectionError();
+
             if (user != null) {
                 mUserName.setText(user.getName());
                 Picasso.with(UserActivity.this)

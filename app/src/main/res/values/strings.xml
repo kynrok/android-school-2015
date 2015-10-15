@@ -6,4 +6,6 @@
     <string name="logout">Выйти</string>
     <string name="ab_my_repositories">Мои репозитории</string>
     <string name="ab_my_profile">Мой профиль</string>
+    <string name="connection_error_title">Ошибка</string>
+    <string name="connection_error_text">Ошибка соединения. Попробуйте войти еще раз.</string>
 </resources>

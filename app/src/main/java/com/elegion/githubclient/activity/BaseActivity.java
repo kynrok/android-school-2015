@@ -1,6 +1,8 @@
 package com.elegion.githubclient.activity;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
 import com.elegion.githubclient.AppDelegate;
+import com.elegion.githubclient.R;
 import com.elegion.githubclient.utils.ActivityBuilder;
 
 /**
@@ -51,6 +54,21 @@ public class BaseActivity extends AppCompatActivity {
             CookieManager.getInstance().removeAllCookie();
         } else {
             CookieManager.getInstance().removeAllCookies(null);
+        }
+    }
+
+    protected void connectionError() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.connection_error_title)
+                .setMessage(R.string.connection_error_text)
+                .setNeutralButton("OK", new  ErrorDialogListener())
+                .create().show();
+    }
+
+    protected class ErrorDialogListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            logout();
         }
     }
 }

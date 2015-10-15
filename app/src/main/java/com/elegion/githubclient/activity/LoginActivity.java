@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.elegion.githubclient.AppDelegate;
 import com.elegion.githubclient.R;
@@ -98,6 +100,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private class ChangeCodeToAuthTokenTask extends AsyncTask<String, Void, Boolean> {
+        private boolean mConnectionError = false;
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -117,7 +120,8 @@ public class LoginActivity extends BaseActivity {
                         .executePost();
 
                 if (responseObject.optInt(ApiClient.STATUS_CODE) != ApiClient.STATUS_CODE_OK) {
-                    //TODO: handle error
+                    mConnectionError = true;
+                    return false;
                 }
 
                 String accessToken = responseObject.optString(ACCESS_TOKEN_RESPONSE_KEY);
@@ -139,6 +143,9 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Boolean success) {
+            if (mConnectionError)
+                connectionError();
+
             if (success) {
                 startActivity(UserActivity.class, true);
             } else {
